@@ -4,6 +4,8 @@
 \usepackage[german]{babel}
 \usepackage[pdfborder={0 0 0}]{hyperref}
 
+\setlength{\parindent}{0cm}
+
 \title{Softwareprojekt: Kameratreiber für das RIOT OS auf dem MSBA2}
 \author{Philipp Rosenkranz  \textless\href{mailto:philipp.rosenkranz@fu-berlin.de}{philipp.rosenkranz@fu-berlin.de}\textgreater
         \and Maximilian F. Müller \textless\href{mailto:m.f.mueller@fu-berlin.de}{m.f.mueller@fu-berlin.de}\textgreater}
@@ -14,21 +16,38 @@
 
 \section{Zielsetzung}
 
-Das Ziel dieses Softwareprojektes zum einen ist, einen Gerätetreiber für eine Kamera
-für das RIOT Betriebssystem auf dem Board MSBA2 zu entwickeln.
+Das Ziel dieses Softwareprojektes ist es einen Gerätetreiber für eine Infrarotkamera für das
+RIOT OS Betriebsystem zu entwickeln.
 
-Zum anderen ist es das Ziel für die Teilnehmer, in die Treiberprogrammierung in C
-einzusteigen und die grundlegenden Techniken zu erlernen.
-
+Zusätzlich sollen Projektarbeit in einem kleinen Team eingeübt werden und die grundlegenden Techniken der Treiberprogrammierung in C erlernt werden.
 \section{Softwareplattform}
+RIOT OS ist ein Betriebsystem welches für das Internet of Things entwickelt wurde.
+Als solches hat es das erklärte Ziel zum einen auf verhältnismäßig rudimentären Hardwareplatformen lauffähig zu sein und zum anderen einen möglichst vollständigen Netzwerkstack zur Verfügung zu stellen.
 
-Das verwendete Betriebssytem ist das RIOT OS, das sich selbst als freundlich bezeichnet
-und als leistungsstarke und schlanke Alternative für das Internet der Dinge geschaffen
-wurde.
+Zu den Alleinstellungsmerkmalen von RIOT gehört:
+\begin{itemize}
+\item Programmierung in ANSI C und C++ (Es müssen keine exotischen C Dialekte erlernt werden)
+\item Sehr niedriger Memory footprint (RAM/ROM)
+\item Teilweise POSIX konform.
+\item Hardware Abhängigkeit relativ gering (Code once, Compile for multiple plattforms)
+\end{itemize}
 
 \section{Hardwareplattform}
+Die Hardwareplatform ist das an der Freien Universität Berlin entwickelte \mbox{MSBA2}. 
+
+Die wesentlichen Daten zu dem Board:
+
+\begin{itemize}
+\item Prozessor: LPC2387: 32 Bit ARM7 Kern mit 512KB Flash und 98KB RAM
+\item Transceiver: CC1100 10dBm Sendeleistung, 400KBit Datenrate und WOR 
+\item 46 frei programmierbare I/O PINs
+\item Micro SD Kartenslot 
+\item USB Schnittstelle für die die Programmierung 
+
+\end{itemize}
 
 \section{Die Kamera}
+Der Treiber soll für eine Infrarotkammera entwickelt werden. Deren genauere Spezifikationen steht zu diesem Zeitpunkt noch nicht fest.
 
 \section{Zeitplan}
 
