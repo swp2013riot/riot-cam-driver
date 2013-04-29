@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[german]{babel}
 \usepackage[pdfborder={0 0 0}]{hyperref}
+\usepackage{tabularx}
 
 \setlength{\parindent}{0cm}
 
@@ -16,19 +17,19 @@
 
 \section{Zielsetzung}
 
-Das Ziel dieses Softwareprojektes ist es einen Gerätetreiber für eine Infrarotkamera für das
+Das Ziel dieses Softwareprojektes ist es, einen Gerätetreiber für eine Infrarotkamera für das
 RIOT OS Betriebsystem zu entwickeln.
 
 Zusätzlich sollen Projektarbeit in einem kleinen Team eingeübt werden und die grundlegenden Techniken der Treiberprogrammierung in C erlernt werden.
 \section{Softwareplattform}
-RIOT OS ist ein Betriebsystem welches für das Internet of Things entwickelt wurde.
-Als solches hat es das erklärte Ziel zum einen auf verhältnismäßig rudimentären Hardwareplatformen lauffähig zu sein und zum anderen einen möglichst vollständigen Netzwerkstack zur Verfügung zu stellen.
+RIOT OS ist ein Betriebssystem, welches für das Internet of Things entwickelt wurde.
+Als solches hat es das erklärte Ziel, zum einen auf verhältnismäßig rudimentären Hardwareplatformen lauffähig zu sein und zum anderen, einen möglichst vollständigen Netzwerkstack zur Verfügung zu stellen.
 
 Zu den Alleinstellungsmerkmalen von RIOT gehört:
 \begin{itemize}
-\item Programmierung in ANSI C und C++ (Es müssen keine exotischen C Dialekte erlernt werden)
+\item Programmierung in ANSI C und C++ (Es müssen keine exotischen C-Dialekte erlernt werden)
 \item Sehr niedriger Memory footprint (RAM/ROM)
-\item Teilweise POSIX konform.
+\item Teilweise POSIX konform
 \item Hardware Abhängigkeit relativ gering (Code once, Compile for multiple plattforms)
 \end{itemize}
 
@@ -47,8 +48,21 @@ Die wesentlichen Daten zu dem Board:
 \end{itemize}
 
 \section{Die Kamera}
-Der Treiber soll für eine Infrarotkammera entwickelt werden. Deren genauere Spezifikationen steht zu diesem Zeitpunkt noch nicht fest.
+Der Treiber soll für eine Infrarotkamera entwickelt werden. Deren genauere Spezifikationen steht zu diesem Zeitpunkt noch nicht fest.
 
 \section{Zeitplan}
+
+\renewcommand{\arraystretch}{2}
+\begin{tabularx}{\textwidth}{lX}
+\textbf{KW 18} & Beginn der Entwicklung \\
+\textbf{KW 19} & Präsentation des Projektplanes \\
+\textbf{KW 21} & \emph{Milestone 1:} Anforderungen an der Treiber erarbeitet \\
+\textbf{KW 22} & Erwartetes Eintreffen der Kamera \\
+\textbf{KW 23} & \emph{Milestone 2:} Kommunikation mit der Kamera möglich, erster Treiberentwurf \\
+\textbf{KW 24} & Zwischenpräsentation der Arbeitsergebnisse \\
+\textbf{KW 26} & \emph{Milestone 3:} Treibergerüst im Wesentlichen fertig, alle groben Fehler behoben \\
+\textbf{KW 27} & \emph{Milestone 4:} Treiber fertiggestellt bis auf minimale Korrekturen \\
+\textbf{KW 28} & Abschlusspräsentation \\
+\end{tabularx}
 
 \end{document}
