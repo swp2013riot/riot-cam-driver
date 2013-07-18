@@ -1,0 +1,52 @@
+- Beschreibung des Projektes
+  Zusammenfassung. Entwicklung eines Grabber-Treibers für den native port ...
+- Verwendete "Technologien"
+  - RIOT
+    Das Übliche.
+    - Nativer Port
+      Kurze Beschreibung, Vergleich mit bekannten Technologien (User Mode Linux)
+    - Treiberkonzept
+      Trennung in arch- und noarch-Teil. Pfade, Portieren, etc.
+  - USB
+    seriell, sync, async, isoc, control msgs, URBS(bNumber, bValue, bIndex, !bHappy)
+  - USB-Grabber
+    "Funktionsweise" ;-) STK1160, I2C (What's that?), SAA7113
+- Treiberentwicklung
+  - Analyse existierender Treiber
+    - Kernelmodule, V4L2, stk1160 (easycap), saa711x, das *magische* Zusammenspiel
+  - Mitlauschen auf dem Bus
+    - USBMON, Wireshark, modifizierter stk1160
+  - Konzept
+    - Registermanipulation durch control msgs (Wir senden nummern, siehe URBS)
+    - SAA7113 anstoßen durch I2C über control msgs (registermanip.)
+    - Senden von isoc msgs, empfang der gefüllten msgs
+    - "Anmelden" von Handlern, die mit den Rohdaten (really?) gefüttert werden
+  - Designentscheidungen (libusb, isochron, ...)
+    - wir nehmen libusb ... wir nehmen libusbx
+    - Zusätzlich zur Abstaktion von RIOT in arch- und noarch-Teile haben wir den arch-Teil
+      so designt, dass die backend-Prozeduren (später) durch native prozeduren (ohne libusb(x))
+      ausgetauscht werden können
+  - Vorgehen bei der Implementierung
+    - pair programming
+    - Einsatz von git, ctags, vim, hexdump, gdb, ...
+  - Probleme und Herausforderungen
+    - STK1160 ohne Datenblatt
+    - stk1160 fragwürdig dokumentiert
+    - V4L2 komplex
+    - native Port, Beispielprogramme zu Projekt"beginn" verbuggt/nicht kompilierbar
+    - libusb-Doku
+- Abschlussbetrachtung
+  - Veränderung der Bedingungen im Laufe der Zeit
+    - Kamera zu Beginn unbekannt, Startplattform MSBA2 (warum nicht weiter verwendet?), dann native port
+  - Veränderung der Anforderungen i.L.d.Z.
+    - fertiger Treiber, der Videos ausspuckt -> 
+      Treiber, der einen Frame ausspuckt ->
+      Treiber, der irgendwas ausspuckt
+  - Ergebnisbetrachtung
+    - haben unfertigen Treiber, der irgendwas ausspuckt, YUV?
+      - er streamt zwar etwas, aber wir wissen nicht nicht genau, was
+    - Interpretation der Videodaten ist *nicht unsere Aufgabe*
+  - Reflexion und Ausblick (was muss man tun? z.B. yuv verstehen, saa7113 konfigurieren)
+    umgang mit C im embedded-umfeld kennengelernt
+    treiberprogrammierung allgemein
+    usb kennengelernt
