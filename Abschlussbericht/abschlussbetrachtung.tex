@@ -1,1 +1,25 @@
 \section{Abschlussbetrachtung}
+
+\subsection{Veränderung der Projektvorgaben}
+Die übersprüngliche Projektbeschreibung sah vor, dass ein Gerätetreiber für eine Kamera entwickelt werden sollte, dabei war allerdings nicht näher spezifiert, wie diese Kamera geartet sein sollte.
+Nachdem sich herausstellte, dass die Kamera für das Softwareprojekt nicht verfügbar sein würde, veränderte sich das Projekt dahingehend, dass von jenem Zeitpunkt an ein Gerätetreiber für einen USB-Video-Grabber entwickelt werden sollte.
+
+Die Plattform, für welche der Treiber entwickelt werden sollte, war hierbei das Board \emph{MSBA2}, für welches eine Portierung von RIOT existiert.
+Hier tat sich bereits am Anfang die Frage auf, ob das \emph{MSBA2} genug Rechenleistung und Speicher bieten könnte, um entsprechende Puffer zu allozieren; wenig später beantwortete sich jene Frage nach der Einarbeitung in die Programmierung des \emph{MSBA2} bei der Analyse des existierenden Linux-Treibers von selbst.
+Es ergab sich, dass das \emph{MSBA2} mit einem Arbeitsspeicher von nur 98\,KiB nicht für die Verarbeitung der Videodaten geeignet war.
+
+Anschließend wurde mit dem \emph{BeagleBone}, einem günstigen Computer auf einer Platine, eine neue Hardwareplattform eingeführt, die wesentlich mehr Rechenleistung und Arbeitsspeicher bot, jedoch änderte sich diese Vorgabe bereits wieder in der nächste Woche.
+
+Die finale Plattform war schließlich der \emph{native port} von RIOT (siehe \autoref{section:native_port}), der praktisch alle Beschränkungen von Rechenleistung und Arbeitsspeicher aufhob und die Möglichkeit, auf eine existierende USB-Funktionalität zurückgreifen zu können, eröffnete.
+
+\subsection{Diskussion des Ergebnisses}
+Das Ergebnis dieses Softwareprojektes ist im Grunde genommen ein unfertiger Gerätetreiber, der es zulässt, den \stk{} und den \saa{} zu konfigurieren und welcher tatsächlich einen Videostream bereitstellt, jedoch sind die Videodaten bis zum heutigen Zeitpunkt noch relativ nutzlos, da sie nur bedigt etwas mit der Realität zu tun haben.
+\footnote{Helligkeitsunterschiede waren zu erkennen}
+Der Hauptgrund dafür ist die Tatsache, dass der verwendete USB-Video-Grabber sowie die Verwendung des \emph{native port} erst gemessen an der Gesamtdauer des Softwareprojektes sehr spät feststand.
+Der damit einhergehende effektive Zeitverlust ließ uns zum Ende des Projektes hin nicht mehr die Möglichkeit, die Videodaten einer umfangreichen Analyse zu unterziehen sowie die fehlende Funktionalität, was besonders die Kontrolle des \saa{} betrifft, zu implementieren.
+
+\subsection{Ausblick}
+% TODO
+
+\subsection{Reflexion}
+% TODO
