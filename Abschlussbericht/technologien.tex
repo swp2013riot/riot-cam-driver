@@ -77,6 +77,7 @@ Der Bus ist wie auch USB als Master-Slave-Bus konzipiert, wobei es immer der Mas
 In unserem Falle stellt der \stk{} den Master und der \saa{} den Slave dar.
 
 \subsubsection{Zusammenspiel der Chips}
+\label{section:zusammenspiel}
 Der Computer oder allgemeiner, das Hostsystem kommuniziert immer nur mit dem \stk, nie jedoch mit dem \saa{} direkt.
 Sämtliche Steuerinformationen, in der Regel die Manipulation von Registern, die den \stk{} betreffen, werden in USB-Kontrollnachrichten verpackt und an den \stk{} mittels synchronem Transfer gesendet.
 Ist es notwendig, Steuerinformationen an den \saa{} zu senden, läuft die Kommunikation folglicherweise über den \stk.
