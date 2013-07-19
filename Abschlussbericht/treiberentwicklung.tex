@@ -41,9 +41,17 @@ Mit dem modifizierten stk1160, usbmon und wireshark war es uns anschließend mö
 und USB-Video-Grabber im laufenden Betrieb zu beobachten.
 
 \subsubsection{Analyseergebnisse}
+Durch die Analyse der Linux Module erschloss sich uns das in \autoref{section:zusammenspiel} dargestellte zusammenspiel der
+beiden Chips. Des weiteren wurde klar, wie die initialisierung, der Datentransfer, die deinitialisierung des
+USB-Video-Grabbers und die Kommunikation mit dem \saa{} funktioniert:
 
+\paragraph{Kommunikation mit \saa{}:} Der \saa{} Chip kann von PC-Seite aus nur indirekt über den \stk{} Chip angesteuert werden.
+Der \stk{} Chip kann angewiesen werden eine \iic{} Nachricht an den \saa{} Chip zu schicken indem der Inhalt der Nachricht in ein
+spezielles Register geschrieben wird. Anschließend muss eine Reihe anderer Register mit speziellen Werten beschrieben werden um
+die Nachricht abzuschicken. \textbf{!!!!!!!!LISTINGS?!!!!!!!!}
 
 \subsection{Aufbau und Funktionsweise des RIOT Treibers}
+
 
 \subsection{Vorgehen bei der Implementierung}
 
