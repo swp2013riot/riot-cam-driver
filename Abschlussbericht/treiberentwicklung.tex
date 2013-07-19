@@ -1,1 +1,52 @@
- 
+\section{Treiberentwicklung}
+\subsection{Anaylse der Linux Treiber}
+Für den verwendeten USB-Video-Grabber sind im Linux Kernel bereits zwei 
+verschiedene Treiber vorhanden. Da diese Treiber auf ein im Linux Kern 
+vorhandenes größeres Video Framework aufsetzten ist ein direktes Portieren der 
+entsprechenden Kernel Module nach RIOT nicht ohne weiteres möglich gewesen.
+Trotzdem waren die Linux Kernel Module extrem hilfreich bei der Entwicklung
+der RIOT Treibers. Unter anderem konnte anhand dieser Module das zusammenspiel
+der beiden Chips und die korrekte Ansteuerung selbiger ermittelt werden.
+Insbesondere für den Gateway-Chip \stk{} spielten die Linux Treiber eine
+besondere Rolle da für diesen Chip kein Datenblatt verfügbar ist. Die Linux 
+Treiber waren somit die einzige, uns verfügbare Dokumentation, für diesen Chip. 
+
+\subsubsection{Quellcode-Ebene}
+Da es sich bei dem USB-Video-Grabber um einen Clone eines des weit verbreiteten
+easycap-USB-Video-Grabber handelt hatten wir zunächst das easycap genannte Kernel
+Modul welches in älteren Linux Versionen vorhanden ist betrachtet. Dieser Treiber
+ist in modernern Versionen des Linux Kernel (3.x aufwärts) nicht mehr vorhanden.
+Ein Grund hierfür ist die sehr schlechte Code-Qualität und die nahezu
+nicht vorhandene Dokumentation dieses Moduls. Wegen der schlechten Lesbarkeits des
+Codes war der Informationsgewinn durch das betrachten dieses Codes relativ gering.
+
+In aktuelleren Linux Versionen ist sowohl ein Treiber für den \stk{} (Modulname: stk1160) 
+wie auch für den \saa{} (Modulname: saa711x) Chip vorhanden. Diese Treiber sind im wesentlichen 
+das Ergebnis eines refactoring des alten easycap Moduls. Der Code dieser Module ist wesentlich 
+besser lesbar. Die Dokumentation ist aber auch in diesen Modulen eher mangelhaft. Insbesondere 
+lassen sich im Code der neuen Module Kommentare finden die darauf schließen lassen, dass der 
+Autor einigen aus easycap übernommenen Teile selber nicht verstanden hat.
+
+Trotz dieser Schwierigkeiten konnten wir anhand der neueren Kernel Module das Grundlegende 
+Zusammenspiel der beiden beteildigten Chips nachvollziehen.
+
+\subsubsection{Funktionale-Ebene}
+
+\subsubsection{Analyseergebnisse}
+
+\subsection{Aufbau und Funktionsweise des RIOT Treibers}
+
+\subsection{Vorgehen bei der Implementierung}
+
+\subsection{Probleme und Herausforderungen}
+
+\subsection{USB}
+Der \textbf{U}niversal \textbf{S}erial \textbf{B}us ist ein serieller Bus, der die Kommunikation von Peripheriegeräten mit dem Computer ermöglicht.
+Die Kommunikation läuft immer zwischen zwei Endpunkten ab.
+Ein Endpunkt ist eine Art Unteradresse in einem USB-Gerät.
+Viele Geräte besitzen Unterfunktionen, denen dann jeweils ein Endpunkt zugeordnet ist.
+USB kennt verschiedene Übertragungsmodi:
+
+\paragraph{Synchroner Transfer}
+Beim synchronen Transfer (auch Kontrolltransfer genannt) werden durch eine bidirektionale Pipe kurze Datenpakete zwischen zwei Endpunkten hin und her geschickt.
+Diese Art des Datentransfers ist speziell für die Konfiguration von Geräten entworfen worden.
