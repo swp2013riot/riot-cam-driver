@@ -52,3 +52,35 @@ Zur Steigerung der Datenrate ist es möglich, mehrere isochrone Transfers parall
 Isochroner Transfer läuft im Grunde genommen so ab, dass vorbereitete, leere Datenpakete verschickt werden, die dann auf der Geräteseite mit den zu übertragenden Daten gefüllt werden und als Antwortpakete zurückgesendet werden.
 
 \subsection{USB-Video-Grabber}
+Das Kernstück des Projektes war der \emph{EasyCAP}-USB-Video-Grabber.
+Hierbei handelt es sich um einen günstigen Grabber, der einen S-Video-Eingang, einen Composite-Videoeingang und einen Zweikanal-Audioeingang besitzt.
+Auf dem Grabber finden sich im Wesentlichen zwei Chips.
+
+\subsubsection{Videochip \saa}
+Der von \emph{Philips Semiconductors} entwicklte \saa{} ist ein 9-Bit-Videoprozessor, der mehrere Eingangssignale verarbeiten und dabei umfangreiche Bildanpassungen wie Helligkeits- und Kontrastanpassung, Farbkorrektur und Rauschreduzierung in Echtzeit durchführen kann.
+Fener zeichnet er sich durch eine äußerst kompakte Baugröße und einen niedrigen Energiebedarf aus.
+% TODO Quellenangabe: http://pvr.sourceforge.net/SAA7113H_1.pdf
+
+\subsubsection{USB-Gateway-Chip \stk}
+Der zweite verbaute Chip ist der von \emph{Syntek Semiconductor} entwickelte USB-Gateway-Chip \stk.
+Jener ist zum einen mit dem \saa{} über den von \emph{Philips Semiconductors} entwickelten seriellen Datenbus \iic{} (Inter-Integrated Circuit) und zum anderen über USB~2.0 mit dem Computer verbunden.
+
+\paragraph{\iic}
+\iic{} ist ein serieller Datenbus, der entwickelt wurde, um eine einfache, standardisierte Möglichkeit zu besitzen, um zwischen verschiedenen Mikrochips kommunizieren zu können.
+Die Kommunikation beschränkt sich hierbei auf Steuerinformationen.
+Der Bus ist wie auch USB als Master-Slave-Bus konzipiert, wobei es immer der Master ist, der den Datentransfer beginnt.
+In unserem Falle stellt der \stk{} den Master und der \saa{} den Slave dar.
+
+\subsubsection{Zusammenspiel der Chips}
+Der Computer oder allgemeiner, das Hostsystem kommuniziert immer nur mit dem \stk, nie jedoch mit dem \saa{} direkt.
+Sämtliche Steuerinformationen, in der Regel die Manipulation von Registern, die den \stk{} betreffen, werden in USB-Kontrollnachrichten verpackt und an den \stk{} mittels synchronem Transfer gesendet.
+Ist es notwendig, Steuerinformationen an den \saa{} zu senden, läuft die Kommunikation folglicherweise über den \stk.
+In diesem Falle müssen auch USB-Kontrollnachrichten an den \stk{} gesendet werden, der bei bestimmten Werten in jenen Nachrichten die nötigen Steuerinformationen über \iic{} an den \saa{} weiterleitet.
+Die eigentliche Übertragung der Videoinformationen von der Videoquelle durch den \saa{} und dann über den \stk{} zum Hostsystem erfolgt nicht über \iic, da jenes Protokoll mit einer maximalen Datenrate von 3,4\,MBit/s viel zu langsam wäre.
+Stattdessen existiert neben dem \iic-Bus eine weitere, 8\,Bit breite Datenverbindung, der \emph{VPO}-Bus.
+
+\subsubsection{Übertragung der Videodaten}
+Wenn die Videoübertragung beginnen soll, wird ein Register im \saa{} gesetzt.
+Die Videodaten werden dann fortlaufend über den \emph{VPO}-Bus in einen Puffer im \stk{} abgelegt.
+Werden die Daten vom Hostsystem nicht über isochronen USB-Datentransfer "`abgeholt"', werden sie im Puffer fortlaufend überschrieben.
+Liegt jedoch eine leere isochrone USB-Nachricht vor, liest der \stk{} die Videodaten aus dem Puffer aus und schreibt sie in die Nachricht und schickt jene über den USB-Bus zum Hostsystem zurück.
