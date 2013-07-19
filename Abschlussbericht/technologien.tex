@@ -55,6 +55,11 @@ Isochroner Transfer läuft im Grunde genommen so ab, dass vorbereitete, leere Da
 Das Kernstück des Projektes war der \emph{EasyCAP}-USB-Video-Grabber.
 Hierbei handelt es sich um einen günstigen Grabber, der einen S-Video-Eingang, einen Composite-Videoeingang und einen Zweikanal-Audioeingang besitzt.
 Auf dem Grabber finden sich im Wesentlichen zwei Chips.
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=.5\textwidth]{grabber}
+ \caption{Der \emph{EasyCAP}-USB-Grabber}
+\end{figure}
 
 \subsubsection{Videochip \saa}
 Der von \emph{Philips Semiconductors} entwicklte \saa{} ist ein 9-Bit-Videoprozessor, der mehrere Eingangssignale verarbeiten und dabei umfangreiche Bildanpassungen wie Helligkeits- und Kontrastanpassung, Farbkorrektur und Rauschreduzierung in Echtzeit durchführen kann.
@@ -78,6 +83,11 @@ Ist es notwendig, Steuerinformationen an den \saa{} zu senden, läuft die Kommun
 In diesem Falle müssen auch USB-Kontrollnachrichten an den \stk{} gesendet werden, der bei bestimmten Werten in jenen Nachrichten die nötigen Steuerinformationen über \iic{} an den \saa{} weiterleitet.
 Die eigentliche Übertragung der Videoinformationen von der Videoquelle durch den \saa{} und dann über den \stk{} zum Hostsystem erfolgt nicht über \iic, da jenes Protokoll mit einer maximalen Datenrate von 3,4\,MBit/s viel zu langsam wäre.
 Stattdessen existiert neben dem \iic-Bus eine weitere, 8\,Bit breite Datenverbindung, der \emph{VPO}-Bus.
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=\textwidth]{blockschaltbild}
+ \caption{Blockschaltbild des \emph{EasyCAP}-USB-Grabbers}
+\end{figure}
 
 \subsubsection{Übertragung der Videodaten}
 Wenn die Videoübertragung beginnen soll, wird ein Register im \saa{} gesetzt.
