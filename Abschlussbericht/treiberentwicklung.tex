@@ -50,6 +50,30 @@ Der \stk{} Chip kann angewiesen werden eine \iic{} Nachricht an den \saa{} Chip 
 spezielles Register geschrieben wird. Anschließend muss eine Reihe anderer Register mit speziellen Werten beschrieben werden um
 die Nachricht abzuschicken. \textbf{!!!!!!!!LISTINGS?!!!!!!!!}
 
+\paragraph{Initialisierung:}
+\begin{enumerate}
+ \item (\saa{} Chip über \iic{}) Der gewünschte Videostandard und andere Videoparamter werden konfiguriert.
+ \item (\saa{} Chip über \iic{}) Der \saa{} wird angewiesen Videodaten an den \stk{} weiterzuleiten.
+ \item (\stk{} Chip) Der Chip wird angewiesen isochrone USB-Anfragen zu beantworten.
+\end{enumerate}
+
+\paragraph{Datentransfer:} Ist die initialisierung abgeschlossen können von PC isochrone USB Pakete an den USB-Video-Grabber
+geschickt werden. Jedoch ist darauf zu achten, dass auf dem Host-Controller genügend Bandbreite für den Datentransfer reserviert wird
+(vgl. \emph{Alternate Setting}). Im wesentlichen funktioniert der Datentransfer wie folgt:
+\begin{enumerate}
+ \item Leere Pakete (URBs) werden von dem PC an den \stk{} geschickt.
+ \item Der \stk{} befüllt diese Pakete mit den Videodaten und sendet diese nach einer unbekannten Zeitspanne zurück an den Sender.
+ \item Der Treiber hat einen asynchronen handler welcher beim eintreffen eines Antwortpaketes folgendermaßen agiert:
+ \begin{enumerate}
+  \item Die Integrität der Daten wird geprüft (anhand einer CRC16 Prüfsumme).
+  \item Die Daten werden in einen Puffer geschrieben.
+  \item Ein leeres Paket wird erzeugt und wieder an den \stk{} geschickt. 
+ \end{enumerate}
+\end{enumerate}
+Die Fehlerbehandlung haben wir im Sinne der Übersichtlichkeit nicht dargestellt.
+
+\paragraph{Deinitialisierung:}
+
 \subsection{Aufbau und Funktionsweise des RIOT Treibers}
 
 
