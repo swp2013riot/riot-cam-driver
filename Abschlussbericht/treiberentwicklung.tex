@@ -11,7 +11,7 @@ Insbesondere für den Gateway-Chip \stk{} spielten die Linux Treiber eine
 besondere Rolle da für diesen Chip kein Datenblatt verfügbar ist. Die Linux 
 Treiber waren somit die einzige, uns verfügbare Dokumentation, für diesen Chip. 
 
-\subsubsection{Quellcode-Ebene}
+\subsubsection{Analyse auf Quellcode-Ebene}
 Da es sich bei dem USB-Video-Grabber um einen Clone eines des weit verbreiteten
 easycap-USB-Video-Grabber handelt hatten wir zunächst das easycap genannte Kernel
 Modul welches in älteren Linux Versionen vorhanden ist betrachtet. Dieser Treiber
@@ -22,17 +22,26 @@ Codes war der Informationsgewinn durch das betrachten dieses Codes relativ gerin
 
 In aktuelleren Linux Versionen ist sowohl ein Treiber für den \stk{} (Modulname: stk1160) 
 wie auch für den \saa{} (Modulname: saa711x) Chip vorhanden. Diese Treiber sind im wesentlichen 
-das Ergebnis eines refactoring des alten easycap Moduls. Der Code dieser Module ist wesentlich 
+das Ergebnis eines refactoring des alten easycap Moduls. Der Code dieser Module ist um einiges 
 besser lesbar. Die Dokumentation ist aber auch in diesen Modulen eher mangelhaft. Insbesondere 
 lassen sich im Code der neuen Module Kommentare finden die darauf schließen lassen, dass der 
 Autor einigen aus easycap übernommenen Teile selber nicht verstanden hat.
 
 Trotz dieser Schwierigkeiten konnten wir anhand der neueren Kernel Module das Grundlegende 
-Zusammenspiel der beiden beteildigten Chips nachvollziehen.
+Zusammenspiel der beiden beteildigten Chips nachvollziehen. Einige Unklarheiten sind jedoch
+erhalten geblieben. Insbesondere wird in den Modulen stk1160 und saa711x gebrauch von
+geschachtelten Makros gemacht und nicht Dokumentierte magische Zahlen verwendet. 
 
-\subsubsection{Funktionale-Ebene}
+\subsubsection{Anaylse auf funktionaler Ebene}
+Unter Linux gibt es ein Kernel Modul (Modulename: usbmon) welches es erlaubt USB-Datentransfers zu beobachten bzw. 
+mitzuschneiden. Als Frontend für dieses Modul kann, dass Netzweranalyseprogramm wireshark verwendet werden. 
+Jedoch kann usbmon keine Datentransfers beobachten welche DMA (Direct Memory Access) nutzen. Da das stk1160 Modul für den 
+asynchronen Datentransfer standardmäßig DMA verwendet waren wir gezwungen das Modul zu modifizieren.
+Mit dem modifizierten stk1160, usbmon und wireshark war es uns anschließend möglich den Datentransfer zwischen PC
+und USB-Video-Grabber im laufenden Betrieb zu beobachten.
 
 \subsubsection{Analyseergebnisse}
+
 
 \subsection{Aufbau und Funktionsweise des RIOT Treibers}
 
@@ -40,13 +49,3 @@ Zusammenspiel der beiden beteildigten Chips nachvollziehen.
 
 \subsection{Probleme und Herausforderungen}
 
-\subsection{USB}
-Der \textbf{U}niversal \textbf{S}erial \textbf{B}us ist ein serieller Bus, der die Kommunikation von Peripheriegeräten mit dem Computer ermöglicht.
-Die Kommunikation läuft immer zwischen zwei Endpunkten ab.
-Ein Endpunkt ist eine Art Unteradresse in einem USB-Gerät.
-Viele Geräte besitzen Unterfunktionen, denen dann jeweils ein Endpunkt zugeordnet ist.
-USB kennt verschiedene Übertragungsmodi:
-
-\paragraph{Synchroner Transfer}
-Beim synchronen Transfer (auch Kontrolltransfer genannt) werden durch eine bidirektionale Pipe kurze Datenpakete zwischen zwei Endpunkten hin und her geschickt.
-Diese Art des Datentransfers ist speziell für die Konfiguration von Geräten entworfen worden.
