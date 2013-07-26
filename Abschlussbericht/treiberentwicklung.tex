@@ -1,18 +1,23 @@
 \section{Treiberentwicklung}
 \subsection{Anaylse der Linux Treiber}
 Für den verwendeten USB-Video-Grabber sind im Linux Kernel bereits zwei 
-verschiedene Treiber vorhanden. Da diese Treiber auf ein im Linux Kern 
-vorhandenes größeres Video Framework aufsetzten ist ein direktes Portieren der 
+verschiedene Treiber vorhanden:
+\begin{itemize}
+ \item Das Modul easycap (nur in Kernel Version 2.6.x)
+ \item Die Module stk1160 bzw. saa711x (ab Kernel Version 3.x.y)
+\end{itemize}
+Da diese Treiber auf ein im Linux Kern 
+vorhandenes größeres Video Framework (V4L2) aufsetzten ist ein direktes Portieren der 
 entsprechenden Kernel Module nach RIOT nicht ohne weiteres möglich gewesen.
 Trotzdem waren die Linux Kernel Module extrem hilfreich bei der Entwicklung
-der RIOT Treibers. Unter anderem konnte anhand dieser Module das zusammenspiel
+des RIOT Treibers. Unter anderem konnte anhand dieser Module das zusammenspiel
 der beiden Chips und die korrekte Ansteuerung selbiger ermittelt werden.
 Insbesondere für den Gateway-Chip \stk{} spielten die Linux Treiber eine
 besondere Rolle da für diesen Chip kein Datenblatt verfügbar ist. Die Linux 
 Treiber waren somit die einzige, uns verfügbare Dokumentation, für diesen Chip. 
 
 \subsubsection{Analyse auf Quellcode-Ebene}
-Da es sich bei dem USB-Video-Grabber um einen Clone eines des weit verbreiteten
+Da es sich bei dem USB-Video-Grabber um einen Clone des weit verbreiteten
 easycap-USB-Video-Grabber handelt hatten wir zunächst das easycap genannte Kernel
 Modul welches in älteren Linux Versionen vorhanden ist betrachtet. Dieser Treiber
 ist in modernern Versionen des Linux Kernel (3.x aufwärts) nicht mehr vorhanden.
@@ -22,27 +27,23 @@ Codes war der Informationsgewinn durch das betrachten dieses Codes relativ gerin
 
 In aktuelleren Linux Versionen ist sowohl ein Treiber für den \stk{} (Modulname: stk1160) 
 wie auch für den \saa{} (Modulname: saa711x) Chip vorhanden. Diese Treiber sind im wesentlichen 
-das Ergebnis eines refactoring des alten easycap Moduls. Der Code dieser Module ist um einiges 
+das Ergebnis eines refactoring des alten easycap Moduls. Der Code dieser Module ist wesentlich 
 besser lesbar. Die Dokumentation ist aber auch in diesen Modulen eher mangelhaft. Insbesondere 
-lassen sich im Code der neuen Module Kommentare finden die darauf schließen lassen, dass der 
-Autor einigen aus easycap übernommenen Teile selber nicht verstanden hat.
+lassen sich im Code Kommentare finden die darauf schließen lassen, dass der Autor einige aus easycap übernommenen Teile selber nicht verstanden hat.
 
-Trotz dieser Schwierigkeiten konnten wir anhand der neueren Kernel Module das Grundlegende 
-Zusammenspiel der beiden beteildigten Chips nachvollziehen. Einige Unklarheiten sind jedoch
-erhalten geblieben. Insbesondere wird in den Modulen stk1160 und saa711x gebrauch von
-geschachtelten Makros gemacht und nicht Dokumentierte magische Zahlen verwendet. 
+Trotz dieser Schwierigkeiten konnten wir anhand der neueren Kernel Module das Grundlegende Zusammenspiel der beiden beteiligten Chips nachvollziehen. Einige Unklarheiten sind jedoch erhalten geblieben. Insbesondere wird in den Modulen stk1160 und saa711x Gebrauch von geschachtelten Makros gemacht und nicht Dokumentierte magische Zahlen verwendet. 
 
 \subsubsection{Anaylse auf funktionaler Ebene}
 Unter Linux gibt es ein Kernel Modul (Modulename: usbmon) welches es erlaubt USB-Datentransfers zu beobachten bzw. 
-mitzuschneiden. Als Frontend für dieses Modul kann, dass Netzweranalyseprogramm wireshark verwendet werden. 
+mitzuschneiden. Als Frontend für dieses Modul kann, dass Netzwerkanalyseprogramm wireshark verwendet werden. 
 Jedoch kann usbmon keine Datentransfers beobachten welche DMA (Direct Memory Access) nutzen. Da das stk1160 Modul für den 
 asynchronen Datentransfer standardmäßig DMA verwendet waren wir gezwungen das Modul zu modifizieren.
 Mit dem modifizierten stk1160, usbmon und wireshark war es uns anschließend möglich den Datentransfer zwischen PC
 und USB-Video-Grabber im laufenden Betrieb zu beobachten.
 
 \subsubsection{Analyseergebnisse}
-Durch die Analyse der Linux Module erschloss sich uns das in \autoref{section:zusammenspiel} dargestellte zusammenspiel der
-beiden Chips. Des weiteren wurde klar, wie die initialisierung, der Datentransfer, die deinitialisierung des
+Durch die Analyse der Linux Module erschloss sich uns das in \autoref{section:zusammenspiel} dargestellte Zusammenspiel der
+beiden Chips. Des weiteren wurde klar, wie die Initialisierung, der Datentransfer, die Deinitialisierung des
 USB-Video-Grabbers und die Kommunikation mit dem \saa{} funktioniert:
 
 \paragraph{Kommunikation mit \saa{}:} Der \saa{} Chip kann von PC-Seite aus nur indirekt über den \stk{} Chip angesteuert werden.
@@ -52,12 +53,12 @@ die Nachricht abzuschicken. \textbf{!!!!!!!!LISTINGS?!!!!!!!!}
 
 \paragraph{Initialisierung:}
 \begin{enumerate}
- \item (\saa{} Chip über \iic{}) Der gewünschte Videostandard und andere Videoparamter werden konfiguriert.
+ \item (\saa{} Chip über \iic{}) Der gewünschte Videostandard und andere Timing Parameter werden konfiguriert.
  \item (\saa{} Chip über \iic{}) Der \saa{} wird angewiesen Videodaten an den \stk{} weiterzuleiten.
  \item (\stk{} Chip) Der Chip wird angewiesen isochrone USB-Anfragen zu beantworten.
 \end{enumerate}
 
-\paragraph{Datentransfer:} Ist die initialisierung abgeschlossen können von PC isochrone USB Pakete an den USB-Video-Grabber
+\paragraph{Datentransfer:} Ist die Initialisierung abgeschlossen können vom PC isochrone USB Pakete an den USB-Video-Grabber
 geschickt werden. Jedoch ist darauf zu achten, dass auf dem Host-Controller genügend Bandbreite für den Datentransfer reserviert wird
 (vgl. \emph{Alternate Setting}). Im wesentlichen funktioniert der Datentransfer wie folgt:
 \begin{enumerate}
@@ -73,6 +74,10 @@ geschickt werden. Jedoch ist darauf zu achten, dass auf dem Host-Controller gen�
 Die Fehlerbehandlung haben wir im Sinne der Übersichtlichkeit nicht dargestellt.
 
 \paragraph{Deinitialisierung:}
+\begin{enumerate}
+ \item 
+\end{enumerate}
+
 
 \subsection{Aufbau und Funktionsweise des RIOT Treibers}
 
