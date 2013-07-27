@@ -75,13 +75,111 @@ Die Fehlerbehandlung haben wir im Sinne der Übersichtlichkeit nicht dargestellt
 
 \paragraph{Deinitialisierung:}
 \begin{enumerate}
- \item 
+ \item (\stk{} Chip) Weiterleiten von Daten, durch setzten von entsprechenden Registerwerten, stoppen.
+ \item (\saa{} Chip über \iic{}) Streaming von Videodaten beenden.
+ \item Puffer verwerfen, handler für die isochronen URBs beenden und reservierte Bandbreite auf dem Host-Controller wieder freigeben.
 \end{enumerate}
 
-
 \subsection{Aufbau und Funktionsweise des RIOT Treibers}
+\subsubsection{Aufbau}
+Das Quellcode von RIOT ist in zwei verschieden git repositories aufgeteilt. Im 
+\riotrepo{} ist der Plattformunabhängige Teil des Treibers zu finden. In \boardsrepo{} hingegen ist der Plattformabhängige Teil enthalten. Darüber hinaus gibt es noch das \projectsrepo{} welches Test- und Demonstrationsprojekte enthält.
 
+In \autoref{fig:srcoverviewriot} ist eine Liste der Dateien welche den Plattformunabhängigen Teil des Treibers bilden.\footnote{wobei RIOT/sys/auto\_init/auto\_init.c nicht direkt Teil des Treibers ist sondern nur modifiziert wurde} Ziel des Projektes war es einen Treiber für den native port von RIOT zu entwickeln. Daher ist der native port die einzige Plattform welche den Hardwareabhängigen Teil des Treibers enthält. In \autoref{fig:srcoverviewboards} sind die Treiber Dateien des native port abgebildet. Die in \autoref{fig:srcoverviewprojects} aufgelisteten Dateien stellen ein Demonstrationsprojekt dar welches die Benutzung des stk1160 Treibers veranschaulichen. 
 
+Da der native Port auf einem Host-Betriebsystem (z.B. Linux) läuft wird mithilfe der Biblothek libusbx der USB Stack des Host-Systems an den native port durchgereicht. Dieser Umstand ist in der List der Dateien (\autoref{fig:srcoverviewboards}) nicht sichtbar. Zwecks Übersichtlichkeit sei daher auf den Abhängigkeitsgraph in \autoref{fig:dependsgraph} verwiesen.    
+
+\newgeometry{top=0.5cm,bottom=1.5cm}
+\begin{landscape}
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}[b]{9cm}
+  \begin{verbatim}
+|-- RIOT
+|   |-- core
+|   |   |-- include
+|   |       \-- usb.h
+|   |-- drivers
+|   |   |-- stk1160
+|   |   |   |-- Makefile
+|   |   |   |-- saa711x_regs.h
+|   |   |   |-- stk1160.c
+|   |   |   |-- stk1160.h
+|   |   |   \-- stk1160-reg.h
+|   |   \-- include
+|   |       |-- stk1160_arch.h
+|   |       \-- stk1160.h
+|   \-- sys
+|       |-- auto_init
+|           \-- auto_init.c
+    \end{verbatim}
+ 
+    \caption{caption 1}
+    \label{fig:srcoverviewriot}
+  \end{minipage}
+  \begin{minipage}[b]{9cm}
+    \begin{verbatim}
+|-- boards
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   \-- native
+|       |-- drivers
+|       |   \-- native-stk1160.c
+|       \-- Makefile
+    \end{verbatim}
+    \caption{caption 2}
+    \label{fig:srcoverviewboards}
+  \end{minipage}
+  \begin{minipage}[b]{9cm}
+    \begin{verbatim}
+|-- projects
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   |
+|   \-- stk1160-test
+|       |-- main.c
+|       \-- Makefile
+    \end{verbatim}
+    \caption{caption 2}
+    \label{fig:srcoverviewprojects}
+  \end{minipage}
+  \end{figure}
+\end{landscape}
+\restoregeometry
+
+\begin{figure}[htbp]
+ \centering
+ \includegraphics{./DependsOnGraph-stk1160-c.png}
+ % DependsOnGraph-stk1160-c.png: 406x400 pixel, 72dpi, 14.32x14.11 cm, bb=0 0 406 400
+ \caption{Abhängigkeitsgraph des entwickelten Treibers für RIOT. Die Dateien descriptor.c, libusb.h, io.c, sync.c und core.c sind Teil von libusbx.}
+ \label{fig:dependsgraph}
+\end{figure}
+
+\subsubsection{Funktionsweise}
+Von einem Benutzer des Treibers wird zunächst die stk1160\_init Funktion aufgerufen. Diese wiederum führt, gemäß der Konventionen in RIOT, die dem Build Einstellungen entsprechenden Plattformabhängige Initialisierungsfunktion auf. In dem entwickelten Treiber kann es sich hierbei nur um stk1160\_arch\_init handeln.
+Diese Funktion initialisiert libusbx, sucht nach dem USB-Video-Grabber und reserviert im Erfolgsfall das entsprechende USB-Inteface für den native port.
+
+Sofern die Initialisierung des Treibers erfolgreich war kann anschließend stk1160\_start\__streaming durch den Benutzer aufgerufen werden. stk1160\_start\__streaming initialisiert sowohl den \stk1160 wie auch den \saa711x Chip und startet 
 \subsection{Vorgehen bei der Implementierung}
 
 \subsection{Probleme und Herausforderungen}

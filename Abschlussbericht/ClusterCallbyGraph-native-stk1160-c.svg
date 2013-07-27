@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<svg width="448" height="243" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <polygon points="288,230 424,230 436,218 436,67 424,55 288,55 276,67 276,218 288,230" stroke="#FFFFE0" fill="#FFFFE0"/>
+ <polyline points="424,230 426,230 428,229 429,229 431,228 432,226 434,225 435,223 435,222 436,220 436,218" stroke="#FFFFE0" fill="none"/>
+ <polyline points="436,67 436,65 435,63 435,62 434,60 432,59 431,57 429,56 428,56 426,55 424,55" stroke="#FFFFE0" fill="none"/>
+ <polyline points="288,55 286,55 284,56 283,56 281,57 280,59 278,60 277,62 277,63 276,65 276,67" stroke="#FFFFE0" fill="none"/>
+ <polyline points="276,218 276,220 277,222 277,223 278,225 280,226 281,228 283,229 284,229 286,230 288,230" stroke="#FFFFE0" fill="none"/>
+ <polyline points="288,230 424,230" stroke="#000000" fill="none"/>
+ <polyline points="424,230 426,230 428,229 429,229 431,228 432,226 434,225 435,223 435,222 436,220 436,218" stroke="#000000" fill="none"/>
+ <polyline points="436,218 436,67" stroke="#000000" fill="none"/>
+ <polyline points="436,67 436,65 435,63 435,62 434,60 432,59 431,57 429,56 428,56 426,55 424,55" stroke="#000000" fill="none"/>
+ <polyline points="424,55 288,55" stroke="#000000" fill="none"/>
+ <polyline points="288,55 286,55 284,56 283,56 281,57 280,59 278,60 277,62 277,63 276,65 276,67" stroke="#000000" fill="none"/>
+ <polyline points="276,67 276,218" stroke="#000000" fill="none"/>
+ <polyline points="276,218 276,220 277,222 277,223 278,225 280,226 281,228 283,229 284,229 286,230 288,230" stroke="#000000" fill="none"/>
+ <text x="297" y="71" fill="#000000" font-family="Arial" font-size="12">native-stk1160.c</text>
+ <polygon points="24,212 208,212 220,200 220,23 208,11 24,11 12,23 12,200 24,212" stroke="#FFFFE0" fill="#FFFFE0"/>
+ <polyline points="208,212 210,212 212,211 213,211 215,210 216,208 218,207 219,205 219,204 220,202 220,200" stroke="#FFFFE0" fill="none"/>
+ <polyline points="220,23 220,21 219,19 219,18 218,16 216,15 215,13 213,12 212,12 210,11 208,11" stroke="#FFFFE0" fill="none"/>
+ <polyline points="24,11 22,11 20,12 19,12 17,13 16,15 14,16 13,18 13,19 12,21 12,23" stroke="#FFFFE0" fill="none"/>
+ <polyline points="12,200 12,202 13,204 13,205 14,207 16,208 17,210 19,211 20,211 22,212 24,212" stroke="#FFFFE0" fill="none"/>
+ <polyline points="24,212 208,212" stroke="#000000" fill="none"/>
+ <polyline points="208,212 210,212 212,211 213,211 215,210 216,208 218,207 219,205 219,204 220,202 220,200" stroke="#000000" fill="none"/>
+ <polyline points="220,200 220,23" stroke="#000000" fill="none"/>
+ <polyline points="220,23 220,21 219,19 219,18 218,16 216,15 215,13 213,12 212,12 210,11 208,11" stroke="#000000" fill="none"/>
+ <polyline points="208,11 24,11" stroke="#000000" fill="none"/>
+ <polyline points="24,11 22,11 20,12 19,12 17,13 16,15 14,16 13,18 13,19 12,21 12,23" stroke="#000000" fill="none"/>
+ <polyline points="12,23 12,200" stroke="#000000" fill="none"/>
+ <polyline points="12,200 12,202 13,204 13,205 14,207 16,208 17,210 19,211 20,211 22,212 24,212" stroke="#000000" fill="none"/>
+ <text x="81" y="27" fill="#000000" font-family="Arial" font-size="12">stk1160.c</text>
+ <polygon points="425,90 287,90 287,116 425,117 425,90" stroke="#C0C0C0" fill="#FFFFFF"/>
+ <text x="295" y="106" fill="#000000" font-family="Arial" font-size="12">usb_control_msg</text>
+ <polygon points="188,46 44,46 44,73 188,73 188,46" stroke="#C0C0C0" fill="#FFFFFF"/>
+ <text x="51" y="62" fill="#000000" font-family="Arial" font-size="12">stk1160_read_reg</text>
+ <polyline points="187,72 196,74 205,75 215,77 224,79 234,81 244,82 253,84 263,86 273,87 282,89" stroke="#0000CD" fill="none"/>
+ <polygon points="282,88 287,90 282,91 282,88" stroke="#0000CD" fill="#0000CD"/>
+ <polygon points="189,90 43,90 43,116 189,117 189,90" stroke="#C0C0C0" fill="#FFFFFF"/>
+ <text x="50" y="106" fill="#000000" font-family="Arial" font-size="12">stk1160_write_reg</text>
+ <polyline points="190,103 199,103 208,103 217,103 226,103 236,103 245,103 254,103 264,103 273,103 282,103" stroke="#0000CD" fill="none"/>
+ <polygon points="282,101 287,103 282,105 282,101" stroke="#0000CD" fill="#0000CD"/>
+ <polygon points="421,134 291,134 291,161 421,161 421,134" stroke="#C0C0C0" fill="#FFFFFF"/>
+ <text x="298" y="150" fill="#000000" font-family="Arial" font-size="12">init_iso_transfer</text>
+ <polygon points="212,134 20,134 20,161 212,161 212,134" stroke="#C0C0C0" fill="#FFFFFF"/>
+ <text x="28" y="150" fill="#000000" font-family="Arial" font-size="12">stk1160_start_streaming</text>
+ <polyline points="212,147 219,147 227,147 234,147 242,147 249,147 257,147 264,147 271,147 278,147 285,147" stroke="#0000CD" fill="none"/>
+ <polygon points="285,145 290,147 285,149 285,145" stroke="#0000CD" fill="#0000CD"/>
+ <polygon points="428,178 284,178 284,205 428,205 428,178" stroke="#C0C0C0" fill="#FFFFFF"/>
+ <text x="292" y="194" fill="#000000" font-family="Arial" font-size="12">stk1160_arch_init</text>
+ <polygon points="168,178 64,178 64,205 168,205 168,178" stroke="#C0C0C0" fill="#FFFFFF"/>
+ <text x="72" y="194" fill="#000000" font-family="Arial" font-size="12">stk1160_init</text>
+ <polyline points="168,191 178,191 188,191 199,191 211,191 222,191 234,191 245,191 257,191 268,191 279,191" stroke="#0000CD" fill="none"/>
+ <polygon points="279,189 284,191 279,193 279,189" stroke="#0000CD" fill="#0000CD"/>
+</svg>
