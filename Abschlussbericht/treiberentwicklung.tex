@@ -49,7 +49,7 @@ USB-Video-Grabbers und die Kommunikation mit dem \saa{} funktioniert:
 \paragraph{Kommunikation mit \saa{}:} Der \saa{} Chip kann von PC-Seite aus nur indirekt über den \stk{} Chip angesteuert werden.
 Der \stk{} Chip kann angewiesen werden eine \iic{} Nachricht an den \saa{} Chip zu schicken indem der Inhalt der Nachricht in ein
 spezielles Register geschrieben wird. Anschließend muss eine Reihe anderer Register mit speziellen Werten beschrieben werden um
-die Nachricht abzuschicken. \textbf{!!!!!!!!LISTINGS?!!!!!!!!}
+die Nachricht abzuschicken. 
 
 \paragraph{Initialisierung:}
 \begin{enumerate}
@@ -85,9 +85,9 @@ Die Fehlerbehandlung haben wir im Sinne der Übersichtlichkeit nicht dargestellt
 Das Quellcode von RIOT ist in zwei verschieden git repositories aufgeteilt. Im 
 \riotrepo{} ist der Plattformunabhängige Teil des Treibers zu finden. In \boardsrepo{} hingegen ist der Plattformabhängige Teil enthalten. Darüber hinaus gibt es noch das \projectsrepo{} welches Test- und Demonstrationsprojekte enthält.
 
-In \autoref{fig:srcoverviewriot} ist eine Liste der Dateien welche den Plattformunabhängigen Teil des Treibers bilden.\footnote{wobei RIOT/sys/auto\_init/auto\_init.c nicht direkt Teil des Treibers ist sondern nur modifiziert wurde} Ziel des Projektes war es einen Treiber für den native port von RIOT zu entwickeln. Daher ist der native port die einzige Plattform welche den Hardwareabhängigen Teil des Treibers enthält. In \autoref{fig:srcoverviewboards} sind die Treiber Dateien des native port abgebildet. Die in \autoref{fig:srcoverviewprojects} aufgelisteten Dateien stellen ein Demonstrationsprojekt dar welches die Benutzung des stk1160 Treibers veranschaulichen. 
+In \autoref{fig:srcoverviewriot} ist eine Liste der Dateien zu sehen, welche den Plattformunabhängigen Teil des Treibers bilden.\footnote{wobei RIOT/sys/auto\_init/auto\_init.c nicht direkt Teil des Treibers ist sondern nur modifiziert wurde} Ziel des Projektes war es einen Treiber für den native port von RIOT zu entwickeln. Daher ist der native port die einzige Plattform welche den Hardwareabhängigen Teil des Treibers enthält. In \autoref{fig:srcoverviewboards} sind die Treiber Dateien des native port abgebildet. Die in \autoref{fig:srcoverviewprojects} aufgelisteten Dateien stellen ein Demonstrationsprojekt dar welches die Benutzung des stk1160 Treibers veranschaulichen. 
 
-Da der native Port auf einem Host-Betriebsystem (z.B. Linux) läuft wird mithilfe der Biblothek libusbx der USB Stack des Host-Systems an den native port durchgereicht. Dieser Umstand ist in der List der Dateien (\autoref{fig:srcoverviewboards}) nicht sichtbar. Zwecks Übersichtlichkeit sei daher auf den Abhängigkeitsgraph in \autoref{fig:dependsgraph} verwiesen.    
+Da der native Port auf einem Host-Betriebsystem (z.B. Linux) läuft wird mithilfe der Biblothek libusbx der USB Stack des Host-Systems an den native port durchgereicht. Dieser Umstand ist in der List der Dateien (\autoref{fig:srcoverviewboards}) nicht sichtbar. Einen ausführlicheren Überblick über Abhängigkeiten des Treibers bietet daher \autoref{fig:dependsgraph}.
 
 \newgeometry{top=0.5cm,bottom=1.5cm}
 \begin{landscape}
@@ -114,7 +114,7 @@ Da der native Port auf einem Host-Betriebsystem (z.B. Linux) läuft wird mithilf
 |           \-- auto_init.c
     \end{verbatim}
  
-    \caption{caption 1}
+    \caption{Liste der Dateien des Treibers\newline im \riotrepo \newline(Plattformunabhängiger Teil)}
     \label{fig:srcoverviewriot}
   \end{minipage}
   \begin{minipage}[b]{9cm}
@@ -137,7 +137,7 @@ Da der native Port auf einem Host-Betriebsystem (z.B. Linux) läuft wird mithilf
 |       |   \-- native-stk1160.c
 |       \-- Makefile
     \end{verbatim}
-    \caption{caption 2}
+    \caption{Liste der Dateien des Treibers\newline im \boardsrepo \newline(Plattformunabhängiger Teil)}
     \label{fig:srcoverviewboards}
   \end{minipage}
   \begin{minipage}[b]{9cm}
@@ -160,7 +160,7 @@ Da der native Port auf einem Host-Betriebsystem (z.B. Linux) läuft wird mithilf
 |       |-- main.c
 |       \-- Makefile
     \end{verbatim}
-    \caption{caption 2}
+    \caption{List der Dateien\newline im \projectsrepo \newline(Demonstrationsprojekt)}
     \label{fig:srcoverviewprojects}
   \end{minipage}
   \end{figure}
@@ -176,11 +176,50 @@ Da der native Port auf einem Host-Betriebsystem (z.B. Linux) läuft wird mithilf
 \end{figure}
 
 \subsubsection{Funktionsweise}
-Von einem Benutzer des Treibers wird zunächst die stk1160\_init Funktion aufgerufen. Diese wiederum führt, gemäß der Konventionen in RIOT, die dem Build Einstellungen entsprechenden Plattformabhängige Initialisierungsfunktion auf. In dem entwickelten Treiber kann es sich hierbei nur um stk1160\_arch\_init handeln.
+Die API des Treibers umfasst vier Funktionen:
+
+\paragraph{stk1160\_init:}
+Von einem Benutzer des Treibers wird zunächst die stk1160\_init Funktion aufgerufen. Diese wiederum führt, gemäß der Konventionen in RIOT, die dem Build Einstellungen entsprechenden Plattformabhängige Initialisierungsfunktion aus. In dem entwickelten Treiber kann es sich hierbei nur um stk1160\_arch\_init handeln.
 Diese Funktion initialisiert libusbx, sucht nach dem USB-Video-Grabber und reserviert im Erfolgsfall das entsprechende USB-Inteface für den native port.
 
-Sofern die Initialisierung des Treibers erfolgreich war kann anschließend stk1160\_start\__streaming durch den Benutzer aufgerufen werden. stk1160\_start\__streaming initialisiert sowohl den \stk1160 wie auch den \saa711x Chip und startet 
+\paragraph{stk1160\_start\_streaming:}
+Sofern die Initialisierung des Treibers erfolgreich war kann anschließend stk1160\_start\_streaming durch den Benutzer aufgerufen werden. stk1160\_start\_streaming initialisiert sowohl den \stk{} wie auch den \saa{} Chip und startet den isochronen Datenempfang.
+
+\paragraph{stk1160\_write\_reg und stk1160\_write\_reg:}
+Die initialisierung des \stk{} Chips erfolgt direkt über das setzten von Registerwerten mithilfe der Funktion stk1160\_write\_reg. Der \saa{} Chip hingegen muss durch eine \iic Nachricht gestartet werden. Diese Nachricht wird mit der Funktion stk1160\_i2c\_busy\_wait dem \saa{} Chip übermittelt. Wobei zu beachten ist, dass diese Funktion die Nachricht nicht direkt übermittelt. Statt dessen wird das weiterleiten der Nachricht mithilfe der Funktionen stk1160\_write\_reg und stk1160\_read\_reg an den \stk{} Chip delegiert. 
+
+\paragraph{}
+Die Registerwerte werden mit der Funktion usb\_control\_msg gesendet (bzw. empfangen). Der bei der Beschreibung von stk1160\_start\_streaming erwähnte isochrone Datentransfer wird mit init\_iso\_transfer initialisiert. Diese Funktion startet auch einen handling thread mithilfe der Funktion libusb\_event\_handling\_thread. Dieser Thread hat zur Aufgabe den Inhalt von empfangenen isochronen Datenpaketen an einem vom Benutzer übergebenen handler weiterzuleiten und ein neues isochrones Paket an den \stk{} Chip zu schicken. 
+
+\paragraph{}
+Der Graph in \autoref{fig:riotcallgraph} illustriert grob die Abfolge der Aufrufe in den verschieden Dateien des Treibers. Ein ausgiebig kommentiertes Beispielprogramm welcher die korrekte Verwendung der API des entwickelten Treibers illustriert ist im \projectsrepo{} zu finden.
+\newgeometry{left=0.1cm,right=0.1cm}
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.63]{./ClusterCallButterflyGraph-native-stk1160-c-highlighted.png}
+ % ClusterCallButterflyGraph-native-stk1160-c-highlighted.png: 922x830 pixel, 72dpi, 32.53x29.28 cm, bb=0 0 922 830
+ \caption{Callgraph des entwickelten RIOT Treibers. core.c, io.c, descriptor.c und sync.c sind Teil von libusbx. Zwecks Übersichtlichkeit sind die Kanten nach Funktionen in core.c ausgegraut. In stk1160.c sind nur Funktionen aufgelistet welche Teil der API des Treibers sind (alle nicht statischen Funktionen).}
+ \label{fig:riotcallgraph}
+\end{figure}
+\restoregeometry
 \subsection{Vorgehen bei der Implementierung}
+Der Treiber wurde inkrementell im Pair-Programming erarbeitet. Jedes Teilentwicklungsziel des Treibers setzte sich im wesentlich aus vier Phasen zusammen:
+\begin{enumerate}
+ \item Analyse des entsprechenden Teiles des Linux Treibers durch Quelltexteinsicht, Debug-Ausgaben und betrachten des Datenverkehrs (usbmon und wireshark)
+ \item Implementierung des Features im RIOT Treiber
+ \item Debuggen des geschriebenen Codes
+ \item Vergleich des Datenverkehrs des RIOT Treibers mit dem des Linux Treibers
+\end{enumerate}
+
+Wobei zu erwähnen ist, dass eine Reihe von Tools die Entwicklung erheblich vereinfacht haben:
+\begin{itemize}
+ \item git: ein VCS welches auch von dem RIOT Team verwendet wird. 
+ \item ctags und cscope: Erlauben die schnelle Navigation in umfangreichen C-Quellcode.
+ \item gdb: Da der native port ein auf dem Host-System ausführbares Binary ist (unter Linux ein ELF) lassen sich Fehler mit dem GNU Debugger nachvollziehen.
+ \item usbmon und wireshark: Mit diesen Werkzeugen lässt sich der Datenverkehr auf dem USB-Bus relativ komfortabel beobachten. Ohne diese beiden Tools wäre die Entwicklung des Treibers noch zeitaufwändiger gewesen. 
+\end{itemize}
 
 \subsection{Probleme und Herausforderungen}
+Die Probleme bei der Entwicklung ergaben sich Hauptsächlich aus dem fehlen des Datenblattes für den \stk{} Chip wie auch der mangelhaften Dokumentation der Linux Treiber. Daher war die größte Herausforderung bei der Entwicklung des Treibers für RIOT die genaue Funktionsweise des USB-Video-Grabbers zu ermitteln. Wobei das ermitteln der Funktionsweise durch oftmals sehr langwierige Analyse- / Debug- Sessions erreicht wurde.
 
+Ein weiteres Problem ist der Fakt, dass RIOT zum Zeitpunkt der Entwicklung dieses Treibers keinen USB Stack enthielt. Dieses Problem konnten wir jedoch umgehen indem der Treiber lediglich für den native port und libusbx entwickelt wurde. Somit kann der USB-Stack des Host-Systems verwendet werden. Es ist jedoch anzumerken, dass der Treiber auch im Hinblick auf einen eventuell später verfügbaren RIOT USB-Stack geschrieben wurde.  
