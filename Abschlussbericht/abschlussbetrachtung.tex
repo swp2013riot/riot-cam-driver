@@ -19,7 +19,21 @@ Der Hauptgrund dafür ist die Tatsache, dass der verwendete USB-Video-Grabber so
 Der damit einhergehende effektive Zeitverlust ließ uns zum Ende des Projektes hin nicht mehr die Möglichkeit, die Videodaten einer umfangreichen Analyse zu unterziehen sowie die fehlende Funktionalität, was besonders die Kontrolle des \saa{} betrifft, zu implementieren.
 
 \subsection{Ausblick}
-% TODO
+Bis zum produktiven Einsatz des Treibers ist es noch ein relativ weiter Weg, da es noch Baustellen an verschiedenen Stellen gibt:
+Es müssen diverse Funktionen des \saa, zum Beispiel Bildverarbeitungen wie Hellkeits- und Kontrastanpassungen oder die Frameratesteuererung, konfigurierbar gemacht werden.
+Dazu ist es nötig, das Datenblatt des \saa{} zu studieren und auch den Linuxtreiber weiter zu betrachten.
+Ferner ist auch notwendig, die empfangenen Daten zu validieren und an der Interpretation derjenigen zu arbeiten, um überhaupt ein brauchbares Bild zu erhalten.
+Zum Abschluss sei noch angemerkt, dass für RIOT noch ein USB-Stack notwendig ist, um gegebenenfalls \emph{libusb(x)} zu protieren oder gleich die fiktive native USB-Funktionalität von RIOT zu nutzen.
 
 \subsection{Reflexion}
-% TODO
+Dieses Softwareprojekt war durch und durch eine interessante Herausforderung und gleichwohl eine hervorragende Möglichkeit, Kenntnisse in vielen Bereichen zu erhalten:
+\begin{itemize}
+ \item Funktionsweise des USB-Protokolles
+ \item Programmierung eines Gerätetreibers
+ \item Verwendung von vielen Entwicklungswerkzeugen wie \emph{vim}, \emph{ctags}, \emph{gcc}, \emph{gdb}, \emph{git} und vielen anderen mehr ...
+ \item Beflügelung durch Teilerfolge und Demotivation durch Rückschläge
+\end{itemize}
+Alles in allem ist es eine wertvolle Erfahrung, solch ein Softwareprojekt durchzuführen.
+Wir lernten, Arbeit aufzuteilen, zu strukturieren, diese Zweige wieder zusammenzuführen.
+
+Ein bisschen schade ist es aus unserer Sicht am Ende doch, kein Richtiges Bild bekommen zu haben, aber sicherlich wird irgendwann auf Basis dieses Softwareprojektes etwas weiterenwickelt.

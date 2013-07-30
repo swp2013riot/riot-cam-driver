@@ -1,7 +1,7 @@
 \section{Verwendete Technologien}
 
 \subsection{RIOT}
-RIOT ist ein neues Betriebssytem für das Internet of Things (IoT).
+RIOT\footnote{siehe \url{http://www.riot-os.org}} ist ein neues Betriebssytem für das Internet of Things (IoT).
 Es ist ein teilweise POSIX-konformes System, das auf mehreren Hardwareplattformen lauffähig ist.
 Die Programmierung gestaltet sich sehr bequem, da einfach in C oder C++ programmiert werden kann, unter Verwendung von Standardwerkzeugen wie gcc und gdb.
 Es zeichnet sich durch eine minimale Hardwareabhängigkeit aus ist dementsprechend einfach zu portieren.
@@ -20,13 +20,14 @@ Insbesondere bedeutet dies auch, dass der Arbeitsspeicher des Wirtsystemes im vo
 \subsubsection{Treiberarchitektur}
 Um die hohe Portabilität von RIOT zu gewährleisten, sind alle Treiber prizipiell in einen hardwareabhängigen und einen hardwareunabhängigen Teil getrennt.
 Dies hat zur Folge, dass bei der Portierung von RIOT auf eine neue Plattform der hardwareabhängige Teil angepasst werden muss.
+Siehe dazu auch Abschnitt 3.2. % TODO: Referenz einfügen!
 
 \subsection{USB}
-Der \textbf{U}niversal \textbf{S}erial \textbf{B}us ist ein serieller Bus, der die Kommunikation von Peripheriegeräten mit dem Computer ermöglicht.
+Der \textbf{U}niversal \textbf{S}erial \textbf{B}us ist ein serieller Bus, der die Kommunikation von Peripheriegeräten mit dem Computer ermöglicht.\footnote{vgl. USB-2.0-Spezifikation}
 Die Kommunikation läuft immer zwischen zwei Endpunkten ab.
 Ein Endpunkt ist eine Art Unteradresse in einem USB-Gerät.
 Viele Geräte besitzen Unterfunktionen, denen dann jeweils ein Endpunkt zugeordnet ist.
-USB kennt verschiedene Übertragungsmodi:
+USB kennt verschiedene Übertragungsmodi:\footnote{siehe auch \texttt{libusbx}-Spezifikation}
 
 \paragraph{Synchroner Transfer}
 Beim synchronen Transfer (auch Kontrolltransfer genannt) werden durch eine bidirektionale Pipe kurze Datenpakete zwischen zwei Endpunkten hin und her geschickt.
@@ -39,14 +40,14 @@ Die Übertragung aynchroner Pakete ist generell mit einer CRC16-Prüfsumme gesic
 Dies bedeutet jedoch nicht, dass bei einem fehlerhaften Transfer automatisch eine Übertragungswiederholung durchgeführt wird, sondern dass erkannt werden kann, ob ein Paket fehlerhaft ist.
 Beim asynchronen Transfer unterscheidet man wiederum in folgende drei Submodi:
 
-\paragraph*{Bulk-Transfer}
+\paragraph{Bulk-Transfer}
 Der Bulk-Transfer ist vor allen Dingen für die Übertragung von großen Datenmengen gedacht.
 Da diese oftmals nicht zeitkritisch sind, wird diese Form des Transfers niedrig priorisiert und erst durchgeführt, wenn isochrone Transfers und Interrupt-Transfers abgeschlossen sind.
 
-\subparagraph{Interrupt-Transfer}
+\paragraph{Interrupt-Transfer}
 Interrupt-Transfers sind dafür da, um kleine Datenmengen schnell und unter Umständen häufig zu übertragen, daher wird diese Form des Transfers hauptsächlich für Eingabegeräte wie Maus und Tastatur verwendet.
 
-\subparagraph{Isochroner Transfer}
+\paragraph{Isochroner Transfer}
 Die Form des Transfers garantiert eine bestimmte Datenrate zwischen zwei Endpunkten.
 Bei der Initialisierung einer solchen Verbindung muss die gewünschte Datenrate explizit auf dem USB-Hostcontroller reserviert werden. (vgl. \emph{Alternate Setting})
 Zur Steigerung der Datenrate ist es möglich, mehrere isochrone Transfers parallel zwischen mehreren Endpunkten ablaufen zu lassen.
