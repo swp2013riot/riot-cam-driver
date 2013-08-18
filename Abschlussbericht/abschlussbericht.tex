@@ -9,6 +9,12 @@
 \usepackage[margin=1cm]{caption}
 
 
+% Biblography
+%\usepackage[hidelinks=true]{hyperref}
+\usepackage[style=ieee, hyperref=true]{biblatex}
+\addbibresource{quellen.bib}
+
+
 \title{Entwicklung eines USB-Video-Grabber-Treibers\\ für RIOT}
 \author{Philipp~Rosenkranz, Maximilian~Ferdinand~Müller}
 
@@ -18,6 +24,8 @@
 \newcommand{\riotrepo}{\emph{RIOT} repository}
 \newcommand{\boardsrepo}{\emph{boards} repository}
 \newcommand{\projectsrepo}{\emph{projects} repository}
+\newcommand{\libusb}{\emph{libusb(x)}}
+\newcommand{\easycap}{\emph{EasyCAP}-USB-Grabbers}
 
 \begin{document}
 
@@ -27,5 +35,6 @@
 \input{technologien}
 \input{treiberentwicklung}
 \input{abschlussbetrachtung}
+\input{quellen}
 
 \end{document}

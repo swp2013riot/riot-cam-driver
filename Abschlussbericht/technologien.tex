@@ -1,7 +1,7 @@
 \section{Verwendete Technologien}
 
 \subsection{RIOT}
-RIOT\footnote{siehe \url{http://www.riot-os.org}} ist ein neues Betriebssytem für das Internet of Things (IoT).
+RIOT \autocite{website:riotos} ist ein neues Betriebssytem für das Internet of Things (IoT).
 Es ist ein teilweise POSIX-konformes System, das auf mehreren Hardwareplattformen lauffähig ist.
 Die Programmierung gestaltet sich sehr bequem, da einfach in C oder C++ programmiert werden kann, unter Verwendung von Standardwerkzeugen wie gcc und gdb.
 Es zeichnet sich durch eine minimale Hardwareabhängigkeit aus ist dementsprechend einfach zu portieren.
@@ -23,18 +23,18 @@ Dies hat zur Folge, dass bei der Portierung von RIOT auf eine neue Plattform der
 Siehe dazu auch Abschnitt 3.2. % TODO: Referenz einfügen!
 
 \subsection{USB}
-Der \textbf{U}niversal \textbf{S}erial \textbf{B}us ist ein serieller Bus, der die Kommunikation von Peripheriegeräten mit dem Computer ermöglicht.\footnote{vgl. USB-2.0-Spezifikation}
+Der \textbf{U}niversal \textbf{S}erial \textbf{B}us ist ein serieller Bus, der die Kommunikation von Peripheriegeräten mit dem Computer ermöglicht (Vgl. USB-2.0-Spezifikation \autocite{standard:usb2}).
 Die Kommunikation läuft immer zwischen zwei Endpunkten ab.
 Ein Endpunkt ist eine Art Unteradresse in einem USB-Gerät.
-Viele Geräte besitzen Unterfunktionen, denen dann jeweils ein Endpunkt zugeordnet ist.
-USB kennt verschiedene Übertragungsmodi:\footnote{siehe auch \texttt{libusbx}-Spezifikation}
+Viele Geräte besitzen Unterfunktionen, denen jeweils ein Endpunkt zugeordnet ist.
+USB kennt verschiedene Übertragungsmodi\footnote{Vgl. USB-2.0-Spezifikation (\autocite{standard:usb2}) und \libusb{} Dokumentation (\autocite{website:libusbx})}:
 
 \paragraph{Synchroner Transfer}
 Beim synchronen Transfer (auch Kontrolltransfer genannt) werden durch eine bidirektionale Pipe kurze Datenpakete zwischen zwei Endpunkten hin und her geschickt.
 Diese Art des Datentransfers ist speziell für die Konfiguration von Geräten entworfen worden.
 
 \paragraph{Asynchroner Transfer}
-Der asynchronen Transfer kann dadurch charaterisiert werden, dass die Antwortpakete vom Gerät zu beliebigen Zeitpunkt beim Sender eintreffen.
+Der asynchronen Transfer kann dadurch charakterisiert werden, dass die Antwortpakete vom Gerät zu beliebigen Zeitpunkt beim Sender eintreffen.
 Die Verarbeitung der übertragenen Daten muss folglicherweise auch asynchron erfolgen.
 Die Übertragung aynchroner Pakete ist generell mit einer CRC16-Prüfsumme gesichert.
 Dies bedeutet jedoch nicht, dass bei einem fehlerhaften Transfer automatisch eine Übertragungswiederholung durchgeführt wird, sondern dass erkannt werden kann, ob ein Paket fehlerhaft ist.
@@ -49,24 +49,23 @@ Interrupt-Transfers sind dafür da, um kleine Datenmengen schnell und unter Umst
 
 \paragraph{Isochroner Transfer}
 Die Form des Transfers garantiert eine bestimmte Datenrate zwischen zwei Endpunkten.
-Bei der Initialisierung einer solchen Verbindung muss die gewünschte Datenrate explizit auf dem USB-Hostcontroller reserviert werden. (vgl. \emph{Alternate Setting})
+Bei der Initialisierung einer solchen Verbindung muss die gewünschte Datenrate explizit auf dem USB-Hostcontroller reserviert werden. (Vgl. \emph{Alternate Setting in \autocite{standard:usb2}})
 Zur Steigerung der Datenrate ist es möglich, mehrere isochrone Transfers parallel zwischen mehreren Endpunkten ablaufen zu lassen.
 Isochroner Transfer läuft im Grunde genommen so ab, dass vorbereitete, leere Datenpakete verschickt werden, die dann auf der Geräteseite mit den zu übertragenden Daten gefüllt werden und als Antwortpakete zurückgesendet werden.
 
 \subsection{USB-Video-Grabber}
-Das Kernstück des Projektes war der \emph{EasyCAP}-USB-Video-Grabber.
+Das Kernstück des Projektes war der \easycap{}.
 Hierbei handelt es sich um einen günstigen Grabber, der einen S-Video-Eingang, einen Composite-Videoeingang und einen Zweikanal-Audioeingang besitzt.
 Auf dem Grabber finden sich im Wesentlichen zwei Chips.
 \begin{figure}[h]
  \centering
  \includegraphics[width=.5\textwidth]{grabber}
- \caption{Der \emph{EasyCAP}-USB-Grabber}
+ \caption{Der \easycap{}}
 \end{figure}
 
 \subsubsection{Videochip \saa}
-Der von \emph{Philips Semiconductors} entwicklte \saa{} ist ein 9-Bit-Videoprozessor, der mehrere Eingangssignale verarbeiten und dabei umfangreiche Bildanpassungen wie Helligkeits- und Kontrastanpassung, Farbkorrektur und Rauschreduzierung in Echtzeit durchführen kann.
+Der von \emph{Philips Semiconductors} entwicklte \saa{} ist ein 9-Bit-Videoprozessor, der mehrere Eingangssignale verarbeiten und dabei umfangreiche Bildanpassungen wie Helligkeits- und Kontrastanpassung, Farbkorrektur und Rauschreduzierung in Echtzeit durchführen kann \autocite{datasheet:saa7113}.
 Fener zeichnet er sich durch eine äußerst kompakte Baugröße und einen niedrigen Energiebedarf aus.
-% TODO Quellenangabe: http://pvr.sourceforge.net/SAA7113H_1.pdf
 
 \subsubsection{USB-Gateway-Chip \stk}
 Der zweite verbaute Chip ist der von \emph{Syntek Semiconductor} entwickelte USB-Gateway-Chip \stk.
@@ -89,7 +88,7 @@ Stattdessen existiert neben dem \iic-Bus eine weitere, 8\,Bit breite Datenverbin
 \begin{figure}[h]
  \centering
  \includegraphics[width=\textwidth]{blockschaltbild}
- \caption{Blockschaltbild des \emph{EasyCAP}-USB-Grabbers}
+ \caption{Blockschaltbild des \easycap{}}
 \end{figure}
 
 \subsubsection{Übertragung der Videodaten}
