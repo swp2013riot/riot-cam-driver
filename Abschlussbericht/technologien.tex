@@ -20,7 +20,7 @@ Insbesondere bedeutet dies auch, dass der Arbeitsspeicher des Wirtsystemes im vo
 \subsubsection{Treiberarchitektur}
 Um die hohe Portabilität von RIOT zu gewährleisten, sind alle Treiber prizipiell in einen hardwareabhängigen und einen hardwareunabhängigen Teil getrennt.
 Dies hat zur Folge, dass bei der Portierung von RIOT auf eine neue Plattform der hardwareabhängige Teil angepasst werden muss.
-Siehe dazu auch Abschnitt 3.2. % TODO: Referenz einfügen!
+Siehe dazu auch Abschnitt 3.2.
 
 \subsection{USB}
 Der \textbf{U}niversal \textbf{S}erial \textbf{B}us ist ein serieller Bus, der die Kommunikation von Peripheriegeräten mit dem Computer ermöglicht (Vgl. USB-2.0-Spezifikation \autocite{standard:usb2}).
@@ -30,11 +30,11 @@ Viele Geräte besitzen Unterfunktionen, denen jeweils ein Endpunkt zugeordnet is
 USB kennt verschiedene Übertragungsmodi\footnote{Vgl. USB-2.0-Spezifikation Chapter 5 (\autocite{standard:usb2}) und \libusb{} Dokumentation (\autocite{website:libusbx})}:
 
 \paragraph{Synchroner Transfer}
-Beim synchronen Transfer (auch Kontrolltransfer genannt) werden durch eine bidirektionale Pipe kurze Datenpakete zwischen zwei Endpunkten hin und her geschickt.
+Beim synchronen Transfer (auch Kontrolltransfer genannt) werden durch eine bidirektionale Pipe, eine logische Datenleitung mit zwei Enpunkten, die in beiden Richtungen nach dem FIFO-Prizip arbeitet, kurze Datenpakete zwischen zwei Endpunkten hin und her geschickt.
 Diese Art des Datentransfers ist speziell für die Konfiguration von Geräten entworfen worden.
 
 \paragraph{Asynchroner Transfer}
-Der asynchronen Transfer kann dadurch charakterisiert werden, dass die Antwortpakete vom Gerät zu beliebigen Zeitpunkt beim Sender eintreffen.
+Der asynchronen Transfer kann dadurch charakterisiert werden, dass die Antwortpakete vom Gerät zu beliebigen Zeitpunkt beim Sender eintreffen, nachdem die Anforderungspakete gesendet wurden.
 Die Verarbeitung der übertragenen Daten muss folglicherweise auch asynchron erfolgen.
 Die Übertragung aynchroner Pakete ist generell mit einer CRC16-Prüfsumme gesichert.
 Dies bedeutet jedoch nicht, dass bei einem fehlerhaften Transfer automatisch eine Übertragungswiederholung durchgeführt wird, sondern dass erkannt werden kann, ob ein Paket fehlerhaft ist.
